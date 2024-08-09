@@ -77,7 +77,25 @@ const styles = StyleSheet.create({
         fontSize: 16,  
         marginTop: 10,  
         color: '#444',  
+    },
+    filterContainer: {  
+        flexDirection: 'row',  
+        justifyContent: 'space-around',  
+        margin: 20,  
     },  
+    filterButton: {  
+        padding: 10,  
+        backgroundColor: '#007BFF',  
+        borderRadius: 6,   
+        elevation: 2,
+        width: '30%', 
+    },  
+    filterButtonText: {  
+        color: 'white',  
+        fontSize: 16,  
+        fontWeight: 'bold',
+        textAlign: 'center',  
+    }, 
 });  
 
 export default styles;

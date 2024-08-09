@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";  
 import { View, FlatList, Text, TextInput, TouchableOpacity } from "react-native";  
 import AsyncStorage from '@react-native-async-storage/async-storage';  
-import TodoItem from "../components/TodoItem"; 
-import styles from "../styles"
+import TodoItem from "../components/TodoItem";  
+import FilterButtons from "../components/FilterButtons";  
+import styles from "../styles";  
 
 const Home = ({ navigation }) => {  
   const [todos, setTodos] = useState([]);  
   const [title, setTitle] = useState("");  
   const [comment, setComment] = useState("");  
+  const [filter, setFilter] = useState('all');   
 
   useEffect(() => {  
     loadTodos();  
@@ -52,8 +54,17 @@ const Home = ({ navigation }) => {
     saveTodos(newTodos);  
   };  
 
+  const filteredTodos = () => {  
+    if (filter === 'active') {  
+      return todos.filter(todo => !todo.done);  
+    } else if (filter === 'done') {  
+      return todos.filter(todo => todo.done);  
+    }  
+    return todos;
+  };  
+
   return (  
-    <View style={styles.container}>
+    <View style={styles.container}>  
       <View>  
         <TextInput   
           placeholder="Todo Title"   
@@ -67,12 +78,15 @@ const Home = ({ navigation }) => {
           onChangeText={setComment}   
           style={styles.input}   
         />  
-        <TouchableOpacity style={styles.submitBtn} onPress={addTodo}>
-          <Text style={styles.submitText}>Add Todo</Text>
-        </TouchableOpacity>
+        <TouchableOpacity style={styles.submitBtn} onPress={addTodo}>  
+          <Text style={styles.submitText}>Add Todo</Text>  
+        </TouchableOpacity>  
       </View>  
+
+      <FilterButtons onFilter={setFilter} />   
+
       <FlatList   
-        data={todos}   
+        data={filteredTodos()} 
         renderItem={({ item }) => (  
           <TodoItem   
             todo={item}   
@@ -86,6 +100,5 @@ const Home = ({ navigation }) => {
     </View>  
   );  
 };  
-
 
 export default Home;
